@@ -4,7 +4,7 @@
 #include<math.h>
 int yylex(void);
 #include "y.tab.h"
-int cc = 1, tc = 1, sc = 0;
+int cc = 1, tc = 1, nc = 1, sc = 0;
 %}
 %token TERM RELOP OP WHILE DO SWITCH CASE DEFAULT BREAK
 %union
@@ -27,8 +27,8 @@ line: /* empty */
     | SWITCH '(' TERM ')' '{' { printf("t%d := %s\n", tc, $3); sc = tc; tc++; } cases '}' { printf("NEXT%d: ", cc); cc++; } line
     | BREAK ';' line { printf("goto NEXT%d\n", cc); }
 cases: /* empty */
-     | CASE TERM ':' { printf("if t%d == %s do ", sc, $2); } line cases
-     | DEFAULT ':' line { printf("goto NEXT%d\n", cc); } cases
+     | CASE TERM ':' { printf("CASE%d: if not t%d == %s goto CASE%d\n", nc, sc, $2, nc + 1); nc++; } line cases
+     | DEFAULT { printf("CASE%d: ", nc); nc++; } ':' line { printf("goto NEXT%d\n", cc); } cases
 %%
 int yyerror(char* s)
 {
