@@ -6,3 +6,5 @@ Programs written for the Compiler Design Laboratory in the 6th semester. <br>
 3. Elimination of Immediate Left Recursion <br>
 4. Recursive Descent Parser <br>
 5. Basic Calculator using Lex and Yacc <br>
+6. Three Address Code Generation <br>
+
